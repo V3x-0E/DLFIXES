@@ -140,6 +140,7 @@ type: article
           {%- endfor -%}
         </div>
       </div>
+
       <!-- 2) Two‐section project list -->
       <div class="project-results">
         {%- assign nav_root = site.data.navigation["projects"] -%}
@@ -151,15 +152,40 @@ type: article
               {%- include snippets/get-nav-url.html path=_child.url -%}
               {%- assign _nav_url = __return -%}
 
+              {%- comment -%}
+              Normalize URL for matching against site.posts/pages .url
+              {%- endcomment -%}
+              {%- assign _nav_url_rel = _nav_url | replace: site.url, '' | replace: site.baseurl, '' -%}
+
+              {%- comment -%}
+              Resolve badges:
+              1) Prefer badges on the nav item (_child.badges)
+              2) Else find the target doc by normalized URL and use its front matter badges
+              {%- endcomment -%}
+              {%- assign _badges = _child.badges -%}
+              {%- if _badges == nil or _badges == empty -%}
+                {%- assign _doc = site.posts | where: "url", _nav_url_rel | first -%}
+                {%- unless _doc -%}{%- assign _doc = site.pages | where: "url", _nav_url_rel | first -%}{%- endunless -%}
+                {%- if _doc and _doc.badges -%}{%- assign _badges = _doc.badges -%}{%- endif -%}
+              {%- endif -%}
+
               <li class="project-item"
                   data-platforms='{{ _child.platform | jsonify }}'
                   data-subjects='{{ _child.subjects | jsonify }}'
                   data-swhw='{{ _child["sw-hw"] | jsonify }}'
-                  data-support-level='{{ _child["support-level"] | jsonify }}'>
-                <a href="{{ _nav_url }}">{{ _child.title }}</a>
-                  <p class="project-desc">
-                    {{ _child.description }}
-                  </p>
+                  data-support-level='{{ _child["support-level"] | jsonify }}'
+                  data-badges='{{ _badges | jsonify }}'>
+
+                <header class="project-header">
+                  <a class="project-title" href="{{ _nav_url }}">{{ _child.title }}</a>
+                  {%- if _badges -%}
+                    {% include badges.html items=_badges %}
+                  {%- endif -%}
+                </header>
+
+                <p class="project-desc">
+                  {{ _child.description }}
+                </p>
               </li>
             {%- endfor -%}
             </ul>
