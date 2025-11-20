@@ -41,17 +41,17 @@
       {%- else -%}
         <article class="item">
       {%- endif -%}
-        {%- if _article.cover and include.show_cover-%}
+        {%- if _article.cover and include.show_cover -%}
           {%- include snippets/get-nav-url.html path=_article.cover -%}
           {%- assign _article_cover = __return -%}
           <div class="item__image">
-          {%- if include.cover_size == 'lg' -%}
-            <img class="image image--lg" src="{{ _article_cover }}" />
-          {%- elsif include.cover_size == 'sm' -%}
-            <img class="image image--sm" src="{{ _article_cover }}" />
-          {%- else -%}
-            <img class="image" src="{{ _article_cover }}" />
-          {%- endif -%}
+            {%- if include.cover_size == 'lg' -%}
+              <img class="image image--lg" src="{{ _article_cover }}" alt="{{ _article.title | escape }}" loading="lazy" decoding="async" />
+            {%- elsif include.cover_size == 'sm' -%}
+              <img class="image image--sm" src="{{ _article_cover }}" alt="{{ _article.title | escape }}" loading="lazy" decoding="async" />
+            {%- else -%}
+              <img class="image" src="{{ _article_cover }}" alt="{{ _article.title | escape }}" loading="lazy" decoding="async" />
+            {%- endif -%}
           </div>
         {%- endif -%}
         <div class="item__content">
@@ -71,14 +71,12 @@
             {%- endif -%}
           </div>
           {%- if include.show_info -%}
-            {%- include snippets/assign.html target=site.data.variables.default.page.pageview
-              source0=_article.pageview -%}
+            {%- include snippets/assign.html target=site.data.variables.default.page.pageview source0=_article.pageview -%}
             {%- assign _show_pageview = __return -%}
             {%- include article-info.html article=_article show_pageview=_show_pageview -%}
           {%- endif -%}
         </div>
       </article>
-
 
     {%- elsif include.type == 'brief' -%}
       {%- assign _tags = '' -%}
@@ -114,32 +112,36 @@
           <div class="card card--flat">
             {%- if _article.cover -%}
               <div class="card__image">
-                <img class="image" src="{{ _article_cover }}" />
+                <img class="image" src="{{ _article_cover }}" alt="{{ _article.title | escape }}" loading="lazy" decoding="async" />
                 <div class="overlay overlay--bottom">
                   <header class="card__header-wrap">
                     <a href="{{ _article_url }}"><h2 class="card__header">{{ _article.title }}</h2></a>
-                    {%- if _badges -%}
-                      {% include badges.html items=_badges %}
-                    {%- endif -%}
+                    {%- if _badges -%}{% include badges.html items=_badges %}{%- endif -%}
                   </header>
                 </div>
+              </div>
+            {%- else -%}
+              <div class="card__content">
+                <header class="card__header-wrap">
+                  <a href="{{ _article_url }}"><h2 class="card__header">{{ _article.title }}</h2></a>
+                  {%- if _badges -%}{% include badges.html items=_badges %}{%- endif -%}
+                </header>
               </div>
             {%- endif -%}
           </div>
         </div>
       {%- else -%}
-
         <div class="cell cell--12 cell--md-6 cell--lg-4">
           <div class="card card--flat">
             {%- if _article.cover -%}
-              <div class="card__image"><img src="{{ _article_cover }}" /></div>
+              <div class="card__image">
+                <img src="{{ _article_cover }}" alt="{{ _article.title | escape }}" loading="lazy" decoding="async" />
+              </div>
             {%- endif -%}
             <div class="card__content">
               <header class="card__header-wrap">
                 <a href="{{ _article_url }}"><h2 class="card__header">{{ _article.title }}</h2></a>
-                {%- if _badges -%}
-                  {% include badges.html items=_badges %}
-                {%- endif -%}
+                {%- if _badges -%}{% include badges.html items=_badges %}{%- endif -%}
               </header>
             </div>
           </div>
