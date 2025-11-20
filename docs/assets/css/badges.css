@@ -20,3 +20,11 @@
   height: 20px;
   width: auto;
 }
+
+
+
+
+.card__header-wrap{display:flex;align-items:center;justify-content:space-between;gap:.5rem}
+.card__header-wrap .badges{flex-shrink:0}
+.badges{display:inline-flex;gap:.25rem;align-items:center}
+.badges .badge{height:20px;width:auto}
