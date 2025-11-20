@@ -1,0 +1,22 @@
+/* === Badge alignment for project grid === */
+.card__header-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.card__header-wrap .badges {
+  flex-shrink: 0;
+}
+
+.badges {
+  display: inline-flex;
+  gap: 0.25rem;
+  align-items: center;
+}
+
+.badges .badge {
+  height: 20px;
+  width: auto;
+}
