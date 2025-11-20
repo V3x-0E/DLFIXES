@@ -108,6 +108,7 @@
       </li>
 
     {%- elsif include.type == 'grid' -%}
+      {%- assign _badges = _article.badges | default: _article.data.badges -%}
       {%- if include.size == 'sm' -%}
         <div class="cell cell--12 cell--md-4 cell--lg-3">
           <div class="card card--flat">
@@ -118,6 +119,9 @@
                   <header>
                     <a href="{{ _article_url }}"><h2 class="card__header">{{ _article.title }}</h2></a>
                   </header>
+                  {%- if _badges -%}
+                    {% include badges.html items=_badges %}
+                  {%- endif -%}
                 </div>
               </div>
             {%- endif -%}
@@ -134,6 +138,9 @@
                 <header>
                   <a href="{{ _article_url }}"><h2 class="card__header">{{ _article.title }}</h2></a>
                 </header>
+                {%- if _badges -%}
+                  {% include badges.html items=_badges %}
+                {%- endif -%}
               </div>
           </div>
         </div>
